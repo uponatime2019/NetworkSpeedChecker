@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="NetworkSpeedChecker.Views.HistoryView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:views="using:NetworkSpeedChecker.Views"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ContentBgBrush}">
+        <ScrollViewer>
+            <StackPanel MaxWidth="920" Margin="28,24,28,28" Spacing="16" HorizontalAlignment="Center">
+
+                <!-- Header row -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Spacing="2" VerticalAlignment="Center">
+                        <TextBlock Text="History" Style="{StaticResource PageTitleStyle}"/>
+                        <TextBlock x:Name="SubtitleText"
+                                   Text="Every completed test is saved on this device"
+                                   Style="{StaticResource PageSubtitleStyle}"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                        <Button x:Name="ShareLatestButton"
+                                Content="Share"
+                                Style="{StaticResource HeaderButtonStyle}"
+                                Click="ShareLatestButton_Click"/>
+                        <Button x:Name="CopyLatestButton"
+                                Content="Copy"
+                                Style="{StaticResource HeaderButtonStyle}"
+                                Click="CopyLatestButton_Click"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Empty state -->
+                <Border x:Name="EmptyState"
+                        Style="{StaticResource PanelCardStyle}"
+                        Visibility="Collapsed"
+                        Padding="40,48">
+                    <StackPanel Spacing="10" HorizontalAlignment="Center">
+                        <FontIcon Glyph="&#xE81C;" FontSize="40" Foreground="{ThemeResource TextSecondaryBrush}"/>
+                        <TextBlock Text="No tests yet"
+                                   FontSize="18" FontWeight="SemiBold"
+                                   Foreground="{ThemeResource TextPrimaryBrush}"
+                                   HorizontalAlignment="Center"/>
+                        <TextBlock Text="Run your first speed test to start building a history of your connection."
+                                   Style="{StaticResource PageSubtitleStyle}"
+                                   TextWrapping="Wrap"
+                                   HorizontalAlignment="Center"
+                                   TextAlignment="Center"/>
+                        <Button x:Name="GoTestButton"
+                                Content="Run a speed test"
+                                Style="{StaticResource HeaderButtonStyle}"
+                                HorizontalAlignment="Center"
+                                Margin="0,8,0,0"
+                                Click="GoTestButton_Click"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Latest result card -->
+                <Border x:Name="LatestCard" Style="{StaticResource PanelCardStyle}" Visibility="Collapsed">
+                    <StackPanel Spacing="10">
+                        <Grid>
+                            <TextBlock Text="Latest result"
+                                       FontSize="14" FontWeight="Bold"
+                                       Foreground="{ThemeResource TextSecondaryBrush}"/>
+                            <StackPanel Orientation="Horizontal" Spacing="18" HorizontalAlignment="Right">
+                                <StackPanel Spacing="0">
+                                    <StackPanel Orientation="Horizontal" Spacing="6">
+                                        <FontIcon Glyph="&#xE896;" FontSize="14" Foreground="{StaticResource AccentCyanBrush}"/>
+                                        <TextBlock x:Name="LatestDownload" Text="—" FontSize="17" FontWeight="SemiBold" Foreground="{ThemeResource TextPrimaryBrush}"/>
+                                        <TextBlock Text="Mbps down" FontSize="14" Foreground="{ThemeResource TextSecondaryBrush}" VerticalAlignment="Bottom"/>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                    <FontIcon Glyph="&#xE897;" FontSize="14" Foreground="{StaticResource AccentTealBrush}"/>
+                                    <TextBlock x:Name="LatestUpload" Text="—" FontSize="17" FontWeight="SemiBold" Foreground="{ThemeResource TextPrimaryBrush}"/>
+                                    <TextBlock Text="Mbps up" FontSize="14" Foreground="{ThemeResource TextSecondaryBrush}" VerticalAlignment="Bottom"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                        <TextBlock x:Name="LatestMeta"
+                                   Text=""
+                                   Style="{StaticResource PageSubtitleStyle}"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- History list -->
+                <StackPanel x:Name="ListPanel" Spacing="10">
+                    <ListView x:Name="HistoryList"
+                              SelectionMode="None"
+                              IsItemClickEnabled="True"
+                              ItemClick="HistoryList_ItemClick">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                <Setter Property="Padding" Value="0"/>
+                                <Setter Property="Margin" Value="0,2"/>
+                                <Setter Property="CornerRadius" Value="10"/>
+                                <Setter Property="MinHeight" Value="0"/>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="views:HistoryItem">
+                                <Border Background="{ThemeResource CardBrush}"
+                                        BorderBrush="{ThemeResource CardBorderBrush}"
+                                        BorderThickness="1"
+                                        CornerRadius="12"
+                                        Padding="16,12">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <StackPanel Grid.Column="0" Spacing="1" VerticalAlignment="Center">
+                                            <TextBlock Text="{x:Bind DateLabel}"
+                                                       FontSize="14" FontWeight="SemiBold"
+                                                       Foreground="{ThemeResource TextPrimaryBrush}"/>
+                                            <TextBlock Text="{x:Bind ServerLabel}"
+                                                       FontSize="14"
+                                                       Foreground="{ThemeResource TextSecondaryBrush}"/>
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="5" VerticalAlignment="Center" Margin="18,0,0,0">
+                                            <FontIcon Glyph="&#xE896;" FontSize="14" Foreground="{StaticResource AccentCyanBrush}"/>
+                                            <TextBlock Text="{x:Bind DownloadLabel}" FontSize="14" FontWeight="SemiBold" Foreground="{ThemeResource TextPrimaryBrush}"/>
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="5" VerticalAlignment="Center" Margin="18,0,0,0">
+                                            <FontIcon Glyph="&#xE897;" FontSize="14" Foreground="{StaticResource AccentTealBrush}"/>
+                                            <TextBlock Text="{x:Bind UploadLabel}" FontSize="14" FontWeight="SemiBold" Foreground="{ThemeResource TextPrimaryBrush}"/>
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Column="3" Orientation="Horizontal" Spacing="5" VerticalAlignment="Center" Margin="18,0,0,0">
+                                            <FontIcon Glyph="&#xE916;" FontSize="14" Foreground="{StaticResource AccentVioletBrush}"/>
+                                            <TextBlock Text="{x:Bind PingLabel}" FontSize="14" Foreground="{ThemeResource TextPrimaryBrush}"/>
+                                        </StackPanel>
+
+                                        <Button x:Name="DeleteItemButton"
+                                                Grid.Column="4"
+                                                Style="{StaticResource HeaderButtonStyle}"
+                                                Margin="14,0,4,0"
+                                                VerticalAlignment="Center"
+                                                AutomationProperties.Name="Delete this result"
+                                                Click="DeleteItemButton_Click"
+                                                Content="&#xE74D;"
+                                                FontFamily="Segoe Fluent Icons,Segoe MDL2 Assets">
+                                            <Button.Foreground>
+                                                 <SolidColorBrush Color="#DC2626"/>
+                                            </Button.Foreground>
+                                        </Button>
+
+                                        <FontIcon Grid.Column="5"
+                                                  Glyph="&#xE76C;"
+                                                  FontSize="14"
+                                                  Foreground="{ThemeResource TextSecondaryBrush}"
+                                                  VerticalAlignment="Center"/>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                    <Button x:Name="ClearHistoryButton"
+                            Content="Clear history"
+                            Style="{StaticResource HeaderButtonStyle}"
+                            HorizontalAlignment="Right"
+                            Margin="0,4,0,0"
+                            Foreground="#DC2626"
+                            Click="ClearHistoryButton_Click"/>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

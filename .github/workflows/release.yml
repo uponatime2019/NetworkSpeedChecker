@@ -1,0 +1,40 @@
+name: Release Build & Publish
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Publish Standalone Unpackaged App
+        run: dotnet publish "NetworkSpeedChecker.csproj" -c Release -p:Platform=x64 -o "publish/NetworkSpeedChecker_Portable"
+
+      - name: Package Portable ZIP
+        shell: pwsh
+        run: |
+          if (-not (Test-Path 'publish/NetworkSpeedChecker_Portable/resources.pri')) {
+            throw 'App PRI missing from publish output'
+          }
+          Compress-Archive -Path "publish/NetworkSpeedChecker_Portable/*" -DestinationPath "NetworkSpeedChecker-${{ github.ref_name }}-win-x64.zip"
+
+      - name: Create GitHub Release & Upload Asset
+        uses: softprops/action-gh-release@v2
+        with:
+          files: NetworkSpeedChecker-*-win-x64.zip
+          generate_release_notes: true
+          overwrite: true

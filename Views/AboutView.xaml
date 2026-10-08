@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="NetworkSpeedChecker.Views.AboutView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ContentBgBrush}">
+        <ScrollViewer>
+            <StackPanel MaxWidth="760" Margin="28,24,28,32" Spacing="16" HorizontalAlignment="Center">
+
+                <!-- App identity -->
+                <Border Style="{StaticResource PanelCardStyle}">
+                    <StackPanel Spacing="10">
+                        <StackPanel Orientation="Horizontal" Spacing="14">
+                            <Border Width="52" Height="52" CornerRadius="13">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#0891B2" Offset="0"/>
+                                        <GradientStop Color="#14B8A6" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <FontIcon Glyph="&#xE9D9;" FontSize="26" Foreground="White"/>
+                            </Border>
+                            <StackPanel Spacing="2" VerticalAlignment="Center">
+                                <TextBlock Text="Network Speed Checker"
+                                           FontSize="22" FontWeight="Bold"
+                                           Foreground="{ThemeResource TextPrimaryBrush}"/>
+                                <TextBlock x:Name="VersionText"
+                                           Text="Version 1.0.0"
+                                           Style="{StaticResource PageSubtitleStyle}"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <TextBlock Text="A fast, focused internet speed test for Windows. Measure ping, download and upload speeds in one tap, keep a history on your device, and watch how your connection changes over time."
+                                   FontSize="14" TextWrapping="Wrap"
+                                   Foreground="{ThemeResource TextSecondaryBrush}"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- How it works -->
+                <Border Style="{StaticResource PanelCardStyle}">
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="How the test works"
+                                   FontSize="15" FontWeight="Bold"
+                                   Foreground="{ThemeResource TextPrimaryBrush}"/>
+                        <TextBlock Text="Measurements use Cloudflare's global speed-test endpoints. Ping is the median round-trip of ten small requests; download and upload speeds come from real timed transfers that ramp up to match your connection. The nearest Cloudflare data center is selected automatically."
+                                   FontSize="14" TextWrapping="Wrap"
+                                   Foreground="{ThemeResource TextSecondaryBrush}"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Privacy -->
+                <Border Style="{StaticResource PanelCardStyle}" BorderBrush="{StaticResource AccentTealBrush}">
+                    <StackPanel Spacing="8">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Glyph="&#xE72E;" FontSize="15" Foreground="{StaticResource AccentTealBrush}"/>
+                            <TextBlock Text="Privacy"
+                                       FontSize="15" FontWeight="Bold"
+                                       Foreground="{ThemeResource TextPrimaryBrush}"/>
+                        </StackPanel>
+                        <TextBlock Text="Your connection characteristics are used only to run the speed test. Test history is stored locally on this device and never leaves it. No account, no ads, no tracking, and no personal data is collected or shared."
+                                   FontSize="14" TextWrapping="Wrap"
+                                   Foreground="{ThemeResource TextSecondaryBrush}"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Tips -->
+                <Border Style="{StaticResource PanelCardStyle}">
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="Tips for accurate results"
+                                   FontSize="15" FontWeight="Bold"
+                                   Foreground="{ThemeResource TextPrimaryBrush}"/>
+                        <TextBlock Text="• Pause large downloads, streaming and cloud sync while testing.&#x0a;• Use a wired connection or stay close to your Wi‑Fi router.&#x0a;• Run a few tests at different times of day — congestion varies."
+                                   FontSize="14" TextWrapping="Wrap"
+                                   Foreground="{ThemeResource TextSecondaryBrush}"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

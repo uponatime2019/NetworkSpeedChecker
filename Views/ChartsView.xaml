@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="NetworkSpeedChecker.Views.ChartsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:NetworkSpeedChecker.Controls"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ContentBgBrush}">
+        <ScrollViewer>
+            <StackPanel MaxWidth="960" Margin="28,24,28,28" Spacing="16" HorizontalAlignment="Center">
+
+                <StackPanel Spacing="2">
+                    <TextBlock Text="Charts" Style="{StaticResource PageTitleStyle}"/>
+                    <TextBlock Text="Trends across your saved tests"
+                               Style="{StaticResource PageSubtitleStyle}"/>
+                </StackPanel>
+
+                <!-- Empty state -->
+                <Border x:Name="EmptyState"
+                        Style="{StaticResource PanelCardStyle}"
+                        Visibility="Collapsed"
+                        Padding="40,48">
+                    <StackPanel Spacing="10" HorizontalAlignment="Center">
+                        <FontIcon Glyph="&#xE99A;" FontSize="40" Foreground="{ThemeResource TextSecondaryBrush}"/>
+                        <TextBlock Text="Nothing to chart yet"
+                                   FontSize="18" FontWeight="SemiBold"
+                                   Foreground="{ThemeResource TextPrimaryBrush}"
+                                   HorizontalAlignment="Center"/>
+                        <TextBlock Text="Charts appear once you have saved speed tests."
+                                   Style="{StaticResource PageSubtitleStyle}"
+                                   HorizontalAlignment="Center"/>
+                        <Button Content="Run a speed test"
+                                Style="{StaticResource HeaderButtonStyle}"
+                                HorizontalAlignment="Center"
+                                Margin="0,8,0,0"
+                                Click="GoTestButton_Click"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Chart card -->
+                <Border x:Name="ChartCard" Style="{StaticResource PanelCardStyle}" Visibility="Collapsed">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0" Margin="0,0,0,14">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <ComboBox x:Name="MetricSelector"
+                                      Grid.Column="0"
+                                      MinWidth="130"
+                                      SelectionChanged="MetricSelector_SelectionChanged"
+                                      AutomationProperties.Name="Chart metric">
+                                <ComboBoxItem Content="Download"/>
+                                <ComboBoxItem Content="Upload"/>
+                                <ComboBoxItem Content="Ping"/>
+                            </ComboBox>
+
+                            <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+                                <TextBlock x:Name="AverageLabel"
+                                           Text=""
+                                           FontSize="14" FontWeight="SemiBold"
+                                           Foreground="{ThemeResource TextPrimaryBrush}"
+                                           VerticalAlignment="Center"/>
+                                <ComboBox x:Name="RangeSelector"
+                                          MinWidth="120"
+                                          SelectionChanged="RangeSelector_SelectionChanged"
+                                          AutomationProperties.Name="Number of tests shown">
+                                    <ComboBoxItem Content="Last 10 tests"/>
+                                    <ComboBoxItem Content="Last 30 tests"/>
+                                    <ComboBoxItem Content="All tests"/>
+                                </ComboBox>
+                            </StackPanel>
+                        </Grid>
+
+                        <!-- Plot area -->
+                        <controls:MetricBarChart x:Name="Chart" Grid.Row="1" Height="330"/>
+                    </Grid>
+                </Border>
+
+                <!-- Legend -->
+                <StackPanel x:Name="Legend" Orientation="Horizontal" Spacing="18" HorizontalAlignment="Center" Visibility="Collapsed">
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                        <Rectangle Width="12" Height="12" RadiusX="3" RadiusY="3" Fill="{StaticResource AccentCyanBrush}"/>
+                        <TextBlock Text="Download" Style="{StaticResource PageSubtitleStyle}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                        <Rectangle Width="12" Height="12" RadiusX="3" RadiusY="3" Fill="{StaticResource AccentTealBrush}"/>
+                        <TextBlock Text="Upload" Style="{StaticResource PageSubtitleStyle}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                        <Rectangle Width="12" Height="12" RadiusX="3" RadiusY="3" Fill="{StaticResource AccentVioletBrush}"/>
+                        <TextBlock Text="Ping" Style="{StaticResource PageSubtitleStyle}"/>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

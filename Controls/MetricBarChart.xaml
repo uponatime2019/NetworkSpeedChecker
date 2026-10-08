@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UserControl
+    x:Class="NetworkSpeedChecker.Controls.MetricBarChart"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid x:Name="RootGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Y axis labels -->
+        <Canvas x:Name="LeftAxis" Grid.Row="0" Grid.Column="0" Width="52"/>
+
+        <!-- Gridlines + bars + average line -->
+        <Canvas x:Name="Plot" Grid.Row="0" Grid.Column="1"/>
+
+        <!-- X axis labels -->
+        <Canvas x:Name="BottomAxis" Grid.Row="1" Grid.Column="1" Height="26"/>
+    </Grid>
+</UserControl>
